@@ -8,3 +8,5 @@ openvpn_server_key_city: "Paris"
 openvpn_server_key_org: "oki"
 openvpn_server_key_email: "oki@doki"
 openvpn_server_key_ou: "oki"
+openvpn_server_user_list:
+  - xpe
