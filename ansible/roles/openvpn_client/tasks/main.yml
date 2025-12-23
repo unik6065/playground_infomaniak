@@ -2,6 +2,7 @@
 # tasks file for roles/openvpn_client
 - name: "Create client - {{ item }}"
   ansible.builtin.include_tasks: create_client.yml
-  loop: "{{ openvpn_client_user_list }}"
+  loop:
+    - "{{ openvpn_client_user_list }}"
   tags:
     - fetch

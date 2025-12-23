@@ -4,3 +4,4 @@
 openvpn_client_user_list:
   - xpe
 openvpn_client_destination_key: "/tmp/"
+openvpn_client_server_name: "infovpn"
