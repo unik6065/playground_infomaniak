@@ -26,7 +26,7 @@ resource "openstack_compute_instance_v2" "openvpn" {
   network {
     port = openstack_networking_port_v2.port_openvpn.id
   }
-  depends_on = [openstack_networking_subnet_v2.network_subnet, openstack_networking_secgroup_v2.openvpn]
+  depends_on = [openstack_networking_subnet_v2.network_subnet, openstack_networking_secgroup_rule_v2.ssh]
 }
 
 resource "openstack_networking_floatingip_associate_v2" "fip_associate" {

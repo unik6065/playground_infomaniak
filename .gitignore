@@ -10,3 +10,4 @@
 **/*.swp
 **/*.log
 **/.terraform.lock.hcl
+**/*.lock
