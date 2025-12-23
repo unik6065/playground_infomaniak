@@ -18,10 +18,20 @@ resource "openstack_networking_secgroup_v2" "openvpn" {
   description = "openvpn security group"
 }
 
-resource "openstack_networking_secgroup_rule_v2" "openvpn" {
+resource "openstack_networking_secgroup_rule_v2" "openvpn_upd" {
   direction         = "ingress"
   ethertype         = "IPv4"
   protocol          = "udp"
+  port_range_min    = 1194
+  port_range_max    = 1194
+  remote_ip_prefix  = "0.0.0.0/0"
+  security_group_id = openstack_networking_secgroup_v2.openvpn.id
+}
+
+resource "openstack_networking_secgroup_rule_v2" "openvpn_tcp" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
   port_range_min    = 1194
   port_range_max    = 1194
   remote_ip_prefix  = "0.0.0.0/0"

@@ -1,0 +1,12 @@
+---
+# defaults file for roles/openvpn
+openvpn_server_name: "infovpn"
+openvpn_server_key_name: "serverVPN"
+openvpn_server_key_country: "EU"
+openvpn_server_key_province: "FR"
+openvpn_server_key_city: "Paris"
+openvpn_server_key_org: "oki"
+openvpn_server_key_email: "oki@doki"
+openvpn_server_key_ou: "oki"
+openvpn_server_user_list:
+  - xpe
