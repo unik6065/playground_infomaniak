@@ -8,10 +8,10 @@ resource "openstack_networking_floatingip_v2" "floating_1" {
 }
 
 resource "openstack_networking_port_v2" "port_openvpn" {
-  network_id = openstack_networking_network_v2.network_internal.id
+  network_id = module.network_dev.network_id
 
   fixed_ip {
-    subnet_id = openstack_networking_subnet_v2.network_subnet.id
+    subnet_id = module.network_dev.subnet_id
   }
 }
 
@@ -26,7 +26,7 @@ resource "openstack_compute_instance_v2" "openvpn" {
   network {
     port = openstack_networking_port_v2.port_openvpn.id
   }
-  depends_on = [openstack_networking_subnet_v2.network_subnet, openstack_networking_secgroup_rule_v2.ssh]
+  depends_on = [module.network_dev, openstack_networking_secgroup_rule_v2.ssh]
 }
 
 resource "openstack_networking_floatingip_associate_v2" "fip_associate" {
