@@ -13,11 +13,11 @@
 - name: Check if ca dir already.stat.exists
   ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/openvpn-ca/"
-  register: __openvpn_check_ca_dir_present
+  register: __openvpn_server_check_ca_dir_present
 
 - name: Create CA dir
   ansible.builtin.command: "make-cadir {{ ansible_env.HOME }}/openvpn-ca"
-  when: not __openvpn_check_ca_dir_present.stat.exists
+  when: not __openvpn_server_check_ca_dir_present.stat.exists
   changed_when: false
 
 - name: Customize CA variable configuration
@@ -26,20 +26,20 @@
     regexp: "^{{ item.property | regex_escape() }}="
     line: "{{ item.property }}={{ item.value }}"
   loop:
-    - { property: "export KEY_NAME", value: "{{ openvpn_key_name }}" }
-    - { property: "export KEY_COUNTRY", value: "{{ openvpn_key_country }}" }
-    - { property: "export KEY_PROVINCE", value: "{{ openvpn_key_province }}" }
-    - { property: "export KEY_CITY", value: "{{ openvpn_key_city }}" }
-    - { property: "export KEY_ORG", value: "{{ openvpn_key_org }}" }
-    - { property: "export KEY_EMAIL", value: "{{ openvpn_key_email }}" }
-    - { property: "export KEY_OU", value: "{{ openvpn_key_ou }}" }
+    - { property: "export KEY_NAME", value: "{{ openvpn_server_key_name }}" }
+    - { property: "export KEY_COUNTRY", value: "{{ openvpn_server_key_country }}" }
+    - { property: "export KEY_PROVINCE", value: "{{ openvpn_server_key_province }}" }
+    - { property: "export KEY_CITY", value: "{{ openvpn_server_key_city }}" }
+    - { property: "export KEY_ORG", value: "{{ openvpn_server_key_org }}" }
+    - { property: "export KEY_EMAIL", value: "{{ openvpn_server_key_email }}" }
+    - { property: "export KEY_OU", value: "{{ openvpn_server_key_ou }}" }
     - { property: "export KEY_CONFIG", value: "{{ ansible_env.HOME }}/openvpn-ca/openssl-1.1.1.cnf"}
     - { property: "export KEY_DIR", value: "{{ ansible_env.HOME }}/openvpn-ca/keys"}
 
 - name: Check if ca file already.stat.exists
   ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/openvpn-ca/pki/ca.crt"
-  register: __openvpn_check_ca_crt_file_present
+  register: __openvpn_server_check_ca_crt_file_present
 
 - name: Build the certificate authority
   ansible.builtin.shell: >
@@ -48,13 +48,13 @@
   args:
     chdir: "{{ ansible_env.HOME }}/openvpn-ca/"
     executable: /bin/bash
-  when: not __openvpn_check_ca_crt_file_present.stat.exists
+  when: not __openvpn_server_check_ca_crt_file_present.stat.exists
   changed_when: false
 
 - name: Check if crl server file already.stat.exists
   ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/openvpn-ca/pki/crl.pem"
-  register: __openvpn_check_crl_server_crt_file_present
+  register: __openvpn_server_check_crl_server_crt_file_present
 
 - name: Build crl and server certificate
   ansible.builtin.shell: >
@@ -64,13 +64,13 @@
     chdir: "{{ ansible_env.HOME }}/openvpn-ca/"
     executable: /bin/bash
 
-  when: not __openvpn_check_crl_server_crt_file_present.stat.exists
+  when: not __openvpn_server_check_crl_server_crt_file_present.stat.exists
   changed_when: false
 
 - name: Check if ta key file already.stat.exists
   ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/openvpn-ca/pki/ta.key"
-  register: __openvpn_check_ta_key_file_present
+  register: __openvpn_server_check_ta_key_file_present
 
 - name: Key generation
   ansible.builtin.shell: >
@@ -79,7 +79,7 @@
   args:
     chdir: "{{ ansible_env.HOME }}/openvpn-ca"
     executable: /bin/bash
-  when: not __openvpn_check_ta_key_file_present.stat.exists
+  when: not __openvpn_server_check_ta_key_file_present.stat.exists
   changed_when: false
 
 - name: Copy key and certificates to /etc/openvpn
@@ -101,7 +101,7 @@
 - name: Check if conf file already.stat.exists
   ansible.builtin.stat:
     path: /etc/openvpn/server.conf
-  register: __openvpn_check_config_file_present
+  register: __openvpn_server_check_config_file_present
 
 - name: Generate server.conf from sample configuration
   ansible.builtin.copy:
@@ -109,7 +109,7 @@
     src: /usr/share/doc/openvpn/examples/sample-config-files/server.conf
     dest: /etc/openvpn/server.conf
     mode: "0600"
-  when: not __openvpn_check_config_file_present.stat.exists
+  when: not __openvpn_server_check_config_file_present.stat.exists
   changed_when: false
 
 - name: Adjust OpenVPN server configuration

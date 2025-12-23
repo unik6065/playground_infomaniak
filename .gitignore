@@ -11,3 +11,4 @@
 **/*.log
 **/.terraform.lock.hcl
 **/*.lock
+**/*.vscode
