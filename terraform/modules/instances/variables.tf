@@ -1,9 +1,11 @@
 variable "instance_network_external_id" {
   type    = string
+  default = ""
 }
 
 variable "instance_network_external_name" {
   type    = string
+  default = ""
 }
 
 variable "instance_name" {

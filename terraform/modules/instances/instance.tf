@@ -1,9 +1,6 @@
 data "template_file" "userdata" {
   template = <<CLOUDCONFIG
 #cloud-config
-bootcmd:
-  - printf "[Resolve]\nDNS=8.8.8.8 1.1.1.1\n" > /etc/systemd/resolved.conf
-  - [systemctl, restart, systemd-resolved]
 users:
   - default
   - name: ansible

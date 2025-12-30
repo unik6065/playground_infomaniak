@@ -1,5 +1,5 @@
 module "openvpn" {
-  source                         = "./modules/instances"
+  source                         = "../modules/instances"
   instance_count                 = 1
   instance_name                  = "openvpn"
   instance_key_pair              = openstack_compute_keypair_v2.ssh_public_key.name
