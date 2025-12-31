@@ -8,6 +8,11 @@ variable "network_external_name" {
   default = "ext-floating1"
 }
 
+variable "default_user" {
+  type    = string
+  default = "ansible"
+}
+
 variable "network_internal_dev" {
   type    = string
   default = "internal_dev"

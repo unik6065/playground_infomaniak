@@ -10,6 +10,7 @@ module "openvpn" {
   instance_network_external_id   = var.network_external_id
   instance_ssh_key               = var.ssh_public_key_default_user
   instance_internal_fixed_ip     = "10.0.1.1"
+  instance_default_user          = var.default_user
   public_floating_ip             = true
   metadatas = {
     environment = "dev"

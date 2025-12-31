@@ -1,0 +1,30 @@
+---
+# tasks file for roles/users
+
+- name: Add admin users
+  ansible.builtin.include_tasks: adminusers.yml
+  with_fileglob:
+    - "./users/*.yml"
+
+- name: Users list
+  ansible.builtin.set_fact:
+    users_list: ["{{ users_default_account }}"]
+
+- name: Users list
+  ansible.builtin.set_fact:
+    users_list: "{{ [item | basename | regex_replace('.yml$', '')] + users_list }}"
+  with_fileglob:
+    - "./users/*.yml"
+
+- name: Change allowed users in sshd_config
+  ansible.builtin.copy:
+    content: "AllowUsers {{ users_list | join(' ') }}"
+    dest: /etc/ssh/sshd_config.d/allowusers.conf
+    owner: root
+    group: root
+    mode: "0640"
+    validate: sshd -t -f %s
+  notify: Restart_sshd
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

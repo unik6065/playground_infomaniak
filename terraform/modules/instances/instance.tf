@@ -3,8 +3,8 @@ data "template_file" "userdata" {
 #cloud-config
 users:
   - default
-  - name: ansible
-    primary_group: ansible
+  - name: ${var.instance_default_user}
+    primary_group: ${var.instance_default_user}
     groups: [sudo,adm]
     sudo: ALL=(ALL) NOPASSWD:ALL
     groups: sudo

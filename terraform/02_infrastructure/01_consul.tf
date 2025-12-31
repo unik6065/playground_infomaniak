@@ -7,6 +7,7 @@ module "consul" {
   instance_network_internal_name = var.network_internal_dev
   instance_network_internal_id   = data.terraform_remote_state.vpn.outputs.network_dev_id
   instance_ssh_key               = var.ssh_public_key_default_user
+  instance_default_user          = var.default_user
   instance_volumes_count         = 1
   metadatas = {
     environment = "dev",

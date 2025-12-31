@@ -1,0 +1,6 @@
+password: password
+sudo_nopass: true
+use_sudo: true
+custom_bashrc: false
+ssh_public_key: |
+  ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINYhunetyxbq4O63mVsokuov/6lAOfLmYocBQ8ZBkXup oki@doki 

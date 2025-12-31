@@ -1,0 +1,50 @@
+- name: Load vars
+  ansible.builtin.include_vars:
+    file: "{{ item }}"
+    name: "user"
+
+- name: Define username
+  ansible.builtin.set_fact:
+    users_username: "{{ item | basename | regex_replace('.yml$', '') }}"
+
+- name: Add user group {{ users_username }}
+  ansible.builtin.group:
+    name: "{{ users_username }}"
+    state: present
+
+- name: Add admin user {{ users_username }}
+  ansible.builtin.user:
+    name: "{{ users_username }}"
+    password: "{{ user.password | password_hash }}"
+    update_password: on_create
+    group: "{{ users_username }}"
+    groups: sudo
+    append: true
+    shell: /bin/bash
+  changed_when: false
+
+- name: Add to sudoers file and validate
+  ansible.builtin.lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^{{ users_username }} '
+    line: "{{ users_username }} ALL=(ALL) {{ 'NOPASSWD:' if (user.sudo_nopass | d(false)) else '' }}ALL"
+    validate: 'visudo -cf %s'
+  environment:
+    PATH: /usr/sbin:/usr/local/sbin:/sbin
+  when: user.use_sudo
+
+- name: Add ssh keys {{ users_username }}
+  ansible.posix.authorized_key:
+    user: "{{ users_username }}"
+    key: "{{ user.ssh_public_key }}"
+    state: present
+
+- name: Copy custom bashrc if needed
+  ansible.builtin.copy:
+    src: "./users/{{ users_username }}.bashrc"
+    dest: "/home/{{ users_username }}/.bashrc"
+    owner: "{{ users_username }}"
+    group: "{{ users_username }}"
+    mode: "0750"
+  when: user.custom_bashrc

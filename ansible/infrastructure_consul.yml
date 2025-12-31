@@ -8,6 +8,7 @@
       - {disk: '/dev/sdb', path: '{{  consul_dir_master_data  }}', owner: "consul"}
 
   roles:
+    - users
     - volumes
     - consul
 

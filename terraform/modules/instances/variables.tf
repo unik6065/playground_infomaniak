@@ -12,6 +12,11 @@ variable "instance_name" {
   type = string
 }
 
+variable "instance_default_user" {
+  type = string
+  default = ""
+}
+
 variable "instance_image_id" {
   type = string
   default = "359e3ea8-a295-496f-9b41-06db46b23e14"
