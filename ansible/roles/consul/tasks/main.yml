@@ -28,6 +28,7 @@
     mode: "0750"
     owner: consul
     group: consul
+    recurse: true
   loop:
     - "{{ consul_dir_data }}"
     - "{{ consul_dir_config }}"
@@ -38,7 +39,8 @@
   register: __consul_exists
 
 - name: If consul exists get version
-  ansible.builtin.shell: "set -o pipefail && cat /etc/systemd/system/consul.service | grep Version | sed s/'.*Version '//g"
+  ansible.builtin.shell: "cat /etc/systemd/system/consul.service | grep Version | sed s/'.*Version '//g" # noqa: risky-shell-pipe
+  become: true
   register: __consul_get_version
   when: __consul_exists.stat.exists
   changed_when: false
@@ -51,7 +53,7 @@
     mode: "0750"
     owner: consul
     group: consul
-  when: not __consul_exists.stat.exists or not __get_consul_version.stdout == consul_version
+  when: not __consul_exists.stat.exists or not __consul_get_version.stdout == consul_version
 
 - name: Create service consul for agent
   ansible.builtin.template:

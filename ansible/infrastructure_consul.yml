@@ -3,5 +3,10 @@
   become: true
   vars:
     consul_master: true
+    consul_dir_master_data: "/data"
+    volumes_disks:
+      - {disk: '/dev/sdb', path: '{{  consul_dir_master_data  }}'}
+
   roles:
+    - volumes
     - consul
