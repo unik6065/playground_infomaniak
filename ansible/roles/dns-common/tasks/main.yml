@@ -1,0 +1,43 @@
+---
+# tasks file for roles/dns-common
+- name: Install utils
+  ansible.builtin.apt:
+    name: dnsmasq,dnsutils
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Stop systemd-resolved
+  ansible.builtin.systemd:
+    name: systemd-resolved
+    state: stopped
+    enabled: false
+    masked: true
+  failed_when: false
+
+- name: Edit resolv.conf
+  ansible.builtin.template:
+    src: resolv.conf.j2
+    dest: /etc/resolv.conf
+    mode: "0644"
+    owner: root
+    group: root
+
+- name: Add hostname in /etc/hosts
+  ansible.builtin.lineinfile:
+    dest: /etc/hosts
+    line: "127.0.0.1 {{ ansible_hostname }}"
+    state: present
+
+- name: Add dnsmasq config
+  ansible.builtin.template:
+    src: 10-consul.conf.j2
+    dest: /etc/dnsmasq.d/10-consul.conf
+    mode: "0755"
+  notify: Restart_dnsmasq
+
+- name: Dnsmasq started
+  ansible.builtin.systemd:
+    name: dnsmasq
+    state: started
+    enabled: true
