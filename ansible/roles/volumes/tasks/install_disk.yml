@@ -3,6 +3,22 @@
     fstype: ext4
     dev: "{{ item.disk }}"
 
+- name: Create group {{ item.owner }}
+  ansible.builtin.group:
+    name: "{{ item.owner }}"
+    system: true
+    state: present
+  when: item.owner
+
+- name: Create user {{ item.owner }}
+  ansible.builtin.user:
+    name: "{{ item.owner }}"
+    system: true
+    shell: /sbin/nologin
+    state: present
+  when: item.owner
+
+
 - name: Ensure directory exists
   ansible.builtin.file:
     path: "{{ item.path }}"
@@ -32,4 +48,3 @@
     fstype: ext4
     opts: rw,nofail,noatime,auto
     state: mounted
-  when: __volumes_result_path.changed # noqa: no-handler

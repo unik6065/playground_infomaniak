@@ -5,8 +5,16 @@
     consul_master: true
     consul_dir_master_data: "/data"
     volumes_disks:
-      - {disk: '/dev/sdb', path: '{{  consul_dir_master_data  }}'}
+      - {disk: '/dev/sdb', path: '{{  consul_dir_master_data  }}', owner: "consul"}
 
   roles:
     - volumes
     - consul
+    - dns-common
+
+- name: Consul agent
+  hosts: all,!meta-app_consul
+  become: true
+  roles:
+    - consul
+    - dns-common

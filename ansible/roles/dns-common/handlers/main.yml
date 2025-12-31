@@ -1,0 +1,7 @@
+---
+# handlers file for roles/dns-common
+- name: Restart_dnsmasq
+  ansible.builtin.systemd:
+    name: dnsmasq
+    state: restarted
+    enabled: true
