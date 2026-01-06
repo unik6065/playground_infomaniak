@@ -10,6 +10,13 @@
     sftp_enabled: true
     ssh_permit_tunnel: false
     ssh_allow_tcp_forwarding: 'yes'
+    vault_unik_password: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      30313231313462666435613462643765643966623739333232643735653837346130653832366133
+      3737323331363664343762363763663466316338306464320a363738663965646137613061326536
+      61353266306136376664366638396636333439653532323262326234313336623961346366363536
+      3033323231316164660a346562636638613033323935663830393033383530313562393337363661
+      6364
   pre_tasks:
     - name: Waiting compute...
       ansible.builtin.wait_for_connection:
@@ -17,6 +24,7 @@
         timeout: 300
   roles:
     - base
+    - users
     # - devsec.hardening.os_hardening
     # - devsec.hardening.ssh_hardening
     - dns-common

@@ -49,3 +49,16 @@ variable "metadatas" {
     "environment" = "dev"
   }
 }
+
+variable "ANSIBLE_ENV_VARS" {
+  type = string
+  default = "ANSIBLE_CONFIG=../../ansible/ansible.cfg ANSIBLE_VAULT_PASSWORD_FILE=~/.vault_password.yml"
+}
+variable "ANSIBLE_COMMAND" {
+  type = string
+  default = "ansible-playbook -u"
+}
+variable "ANSIBLE_OPTIONS" {
+  type = string
+  default = "-i ../../ansible/openstack.yml --private-key ~/.ssh/info"
+}

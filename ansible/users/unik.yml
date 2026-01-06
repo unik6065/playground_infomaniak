@@ -1,4 +1,4 @@
-password: password
+password: "{{ vault_unik_password }}"
 sudo_nopass: false
 use_sudo: true
 custom_bashrc: true

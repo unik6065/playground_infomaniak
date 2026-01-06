@@ -7,8 +7,8 @@ resource "null_resource" "ansible_infrastructure" {
   provisioner "local-exec" {
     command = <<-EOT
       sleep 20s;
-      ANSIBLE_CONFIG=../../ansible/ansible.cfg ansible-playbook -u ${var.default_user} -i ../../ansible/openstack.yml --private-key ~/.ssh/info ../../ansible/infrastructure_base.yml;
-      ANSIBLE_CONFIG=../../ansible/ansible.cfg ansible-playbook -u ${var.default_user} -i ../../ansible/openstack.yml -e users_default_account=${var.default_user} --private-key ~/.ssh/info ../../ansible/infrastructure_consul.yml;
+      ${var.ANSIBLE_ENV_VARS} ${var.ANSIBLE_COMMAND} ${var.default_user} ${var.ANSIBLE_OPTIONS} -e users_default_account=${var.default_user} ../../ansible/infrastructure_base.yml;
+      ${var.ANSIBLE_ENV_VARS} ${var.ANSIBLE_COMMAND} ${var.default_user} ${var.ANSIBLE_OPTIONS}  ../../ansible/infrastructure_consul.yml;
     EOT
   }
   depends_on = [module.consul]
