@@ -1,0 +1,5 @@
+---
+# defaults file for roles/consul_services
+
+consul_services:
+consul_service_remove:

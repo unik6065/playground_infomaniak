@@ -1,0 +1,14 @@
+- name: Consul_for_openvpn
+  hosts: meta-app_openvpn
+  become: true
+  roles:
+    - consul
+  vars:
+    consul_services:
+      - {
+        name: "openvpn",
+        type: "udp",
+        check_target: "127.0.0.1:1194",
+        interval: "10s",
+        port: 1194
+      }
