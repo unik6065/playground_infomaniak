@@ -14,6 +14,7 @@ module "openvpn" {
   public_floating_ip             = true
   metadatas = {
     environment = "dev"
+    app = "openvpn"
   }
   instance_subnet_id = module.network_dev.subnet_id
   depends_on         = [module.network_dev, openstack_networking_secgroup_rule_v2.openvpn_tcp]
