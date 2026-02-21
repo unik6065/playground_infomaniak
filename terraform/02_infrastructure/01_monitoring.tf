@@ -1,7 +1,7 @@
-module "consul" {
+module "monitoring" {
   source                         = "../modules/instances"
-  instance_count                 = 3
-  instance_name                  = "consul"
+  instance_count                 = 1
+  instance_name                  = "monitoring"
   instance_key_pair              = "default_key"
   instance_security_groups_ids   = [data.terraform_remote_state.vpn.outputs.security_group_consul_id, data.terraform_remote_state.vpn.outputs.security_group_ssh_internal_id, data.terraform_remote_state.vpn.outputs.security_group_node_exporter_id]
   instance_network_internal_name = var.network_internal_dev
@@ -11,7 +11,7 @@ module "consul" {
   instance_volumes_count         = 1
   metadatas = {
     environment = "dev",
-    app         = "consul"
+    app         = "monitoring"
   }
   instance_subnet_id = data.terraform_remote_state.vpn.outputs.network_dev_subnet_id
 

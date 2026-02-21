@@ -66,6 +66,9 @@ resource "openstack_networking_secgroup_rule_v2" "all_internal_tcp" {
   port_range_max    = 65535
   remote_ip_prefix  = var.network_subnet_cidr
   security_group_id = openstack_networking_secgroup_v2.all_internal.id
+  lifecycle {
+    ignore_changes = [ port_range_min,  port_range_max]
+  }
 }
 
 resource "openstack_networking_secgroup_rule_v2" "all_internal_udp" {
@@ -76,6 +79,9 @@ resource "openstack_networking_secgroup_rule_v2" "all_internal_udp" {
   port_range_max    = 65535
   remote_ip_prefix  = var.network_subnet_cidr
   security_group_id = openstack_networking_secgroup_v2.all_internal.id
+  lifecycle {
+    ignore_changes = [ port_range_min,  port_range_max]
+  }
 }
 
 resource "openstack_networking_secgroup_v2" "proxy" {
@@ -166,4 +172,29 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_consul_icmp" {
   port_range_max    = 0
   remote_ip_prefix  = var.network_subnet_cidr
   security_group_id = openstack_networking_secgroup_v2.consul.id
+}
+
+resource "openstack_networking_secgroup_v2" "node_exporter" {
+  name        = "node_exporter"
+  description = "node_exporter"
+}
+
+resource "openstack_networking_secgroup_rule_v2" "secgroup_node_exporter" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 9100
+  port_range_max    = 9100
+  remote_ip_prefix  = var.network_subnet_cidr
+  security_group_id = openstack_networking_secgroup_v2.node_exporter.id
+}
+
+resource "openstack_networking_secgroup_rule_v2" "secgroup_vmagent" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 8429
+  port_range_max    = 8429
+  remote_ip_prefix  = var.network_subnet_cidr
+  security_group_id = openstack_networking_secgroup_v2.node_exporter.id
 }
