@@ -193,8 +193,9 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_vmagent" {
   direction         = "ingress"
   ethertype         = "IPv4"
   protocol          = "tcp"
-  port_range_min    = 8429
+  port_range_min    = 8428
   port_range_max    = 8429
   remote_ip_prefix  = var.network_subnet_cidr
   security_group_id = openstack_networking_secgroup_v2.node_exporter.id
 }
+

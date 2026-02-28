@@ -1,0 +1,9 @@
+---
+# handlers file for roles/vmetrics
+
+- name: Restart_vmetrics
+  ansible.builtin.systemd:
+    name: vmetrics
+    state: restarted
+    enabled: true
+    daemon_reload: true

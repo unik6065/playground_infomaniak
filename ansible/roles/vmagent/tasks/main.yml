@@ -6,7 +6,7 @@
   register: __vmagent_exists
 
 - name: If vmagent exists get version
-  ansible.builtin.command: "cat /etc/systemd/system/vmagent.service | grep Version | sed s/'.*Version '//g"
+  ansible.builtin.shell: "cat /etc/systemd/system/vmagent.service | grep Version | sed s/'.*Version '//g" # noqa: risky-shell-pipe
   register: __vmagent_get_version
   when: __vmagent_exists.stat.exists
   changed_when: false
