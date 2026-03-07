@@ -3,7 +3,10 @@ module "consul" {
   instance_count                 = 3
   instance_name                  = "consul"
   instance_key_pair              = "default_key"
-  instance_security_groups_ids   = [data.terraform_remote_state.vpn.outputs.security_group_consul_id, data.terraform_remote_state.vpn.outputs.security_group_ssh_internal_id, data.terraform_remote_state.vpn.outputs.security_group_node_exporter_id]
+  instance_security_groups_ids   = [data.terraform_remote_state.vpn.outputs.security_group_consul_id, 
+                                    data.terraform_remote_state.vpn.outputs.security_group_ssh_internal_id, 
+                                    data.terraform_remote_state.vpn.outputs.security_group_node_exporter_id,
+                                    data.terraform_remote_state.vpn.outputs.security_group_all_internal_id]
   instance_network_internal_name = var.network_internal_dev
   instance_network_internal_id   = data.terraform_remote_state.vpn.outputs.network_dev_id
   instance_ssh_key               = var.ssh_public_key_default_user
