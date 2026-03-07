@@ -1,0 +1,4 @@
+---
+# defaults file for roles/monitoring/grafana
+grafana_admin_user: "unik"
+grafana_admin_password: "123456"

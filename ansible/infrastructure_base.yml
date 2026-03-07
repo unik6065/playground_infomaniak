@@ -28,4 +28,4 @@
     # - devsec.hardening.os_hardening
     # - devsec.hardening.ssh_hardening
     - dns-common
-    - node_exporter
+    - monitoring/node_exporter

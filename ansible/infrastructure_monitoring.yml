@@ -1,4 +1,4 @@
-- name: Monitoring
+- name: Monitoring # noqa role-name[path]
   become: true
   hosts: meta-app_monitoring
   vars:
@@ -6,6 +6,7 @@
     vmetrics_dir_disk_data: "/data"
     vmtools_vmalert_remote: vmetrics.service.infomaniak.consul
     vmtools_vmalert_grafana: grafana.service.infomaniak.consul
+    grafana_admin_password: "{{ vault_grafana_admin_password }}"
     karma_alertmanager_uri: "http://alertmanager.service.infomaniak.consul:9093"
     volumes_disks:
       - {disk: '/dev/sdb', path: '{{  vmtools_vmagent_dir_disk_data  }}'}
@@ -45,11 +46,28 @@
         interval: "10s",
         port: 8080
       }
+      - {
+        name: "grafana",
+        type: "http",
+        check_target: "http://127.0.0.1:3000",
+        interval: "10s",
+        port: 3000
+      }
+    vault_grafana_admin_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          32383364373064326530363238656165646361343266393761646137643932316662663139636335
+          6534613034323136646631646535346634373961393762390a613030386163323032663262653230
+          61373366333663313534626135623933643139666338373635303966633932646362623636393838
+          3565643966626535640a323866343938663932383264656266336632663538376238376166316666
+          3733
+
+
 
   roles:
     - volumes
-    - vmtools
-    - vmetrics
-    - alertmanager
-    - karma
+    - monitoring/vmtools
+    - monitoring/vmetrics
+    - monitoring/alertmanager
+    - monitoring/karma
+    - monitoring/grafana
     - consul_services
