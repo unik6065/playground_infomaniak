@@ -208,3 +208,13 @@ resource "openstack_networking_secgroup_rule_v2" "secgroup_vmalert" {
   remote_ip_prefix  = var.network_subnet_cidr
   security_group_id = openstack_networking_secgroup_v2.node_exporter.id
 }
+
+resource "openstack_networking_secgroup_rule_v2" "secgroup_karma" {
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  protocol          = "tcp"
+  port_range_min    = 8080
+  port_range_max    = 8080
+  remote_ip_prefix  = var.network_subnet_cidr
+  security_group_id = openstack_networking_secgroup_v2.node_exporter.id
+}
