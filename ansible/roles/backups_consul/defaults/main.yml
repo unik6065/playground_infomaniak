@@ -1,0 +1,6 @@
+---
+# defaults file for roles/backups_consul
+backups_consul_s3_key: ""
+backups_consul_key: ""
+backups_consul_password: ""
+backups_consul_cron_schedule: "0 1 * * *"

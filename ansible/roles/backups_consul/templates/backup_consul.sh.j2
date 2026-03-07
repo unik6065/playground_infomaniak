@@ -1,0 +1,35 @@
+#!/bin/bash
+
+##################################
+## Backup for consul cluster
+## Version : v1.0
+##################################
+
+set eux
+
+LOG=/var/log/backups/restic_consul-$(date +%F).log
+
+touch /var/lib/cron/start_consul_backup.txt
+
+# source credentials
+source /root/.config/restic/restic_consul.creds
+
+# init restic repo
+restic init
+
+# backup consul
+/usr/local/bin/consul snapshot save /tmp/consul-backup.bck
+
+# push backup
+restic backup /tmp/consul-backup.bck
+
+# purge backup
+restic forget --keep-last=14 \
+    --keep-within-daily=30d \
+    --keep-within-weekly=90d \
+    --keep-within-monthly=365d \
+    --group-by '' \
+    --prune \
+    --host {{ ansible_hostname }}
+
+touch /var/lib/cron/end_consul_backup.txt

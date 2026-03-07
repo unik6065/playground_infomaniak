@@ -1,0 +1,58 @@
+---
+# tasks file for roles/backups_consul
+
+- name: Install restic
+  ansible.builtin.apt:
+    name: restic, cron
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Ensure cron is started
+  ansible.builtin.service:
+    name: cron
+    state: started    
+  
+- name: Install restic
+  ansible.builtin.file:
+    path: "{{ item.dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "{{ item.mode }}"
+  loop:
+    - { dir: "/root/.config/restic/", mode: "0750" }
+    - { dir: "/opt/scripts/backups", mode: "0750" }
+    - { dir: "/var/log/backups/", mode: "0755" }
+    - { dir: "/var/lib/cron/", mode: "0755" }
+
+- name: Add restic configuration file
+  ansible.builtin.copy:
+    content: |
+      export AWS_DEFAULT_REGION="us-east-1"
+      export RESTIC_REPOSITORY="s3:https://s3.pub2.infomaniak.cloud/backups-consul"
+      export AWS_ACCESS_KEY_ID="{{ backups_consul_key }}"
+      export AWS_SECRET_ACCESS_KEY="{{ backups_consul_secret_key }}"
+      export RESTIC_PASSWORD="{{ backups_consul_secret_password }}"
+    dest: /root/.config/restic/restic_consul.creds
+    owner: root
+    group: root
+    mode: "0700"
+
+- name: Install the consul backup script
+  ansible.builtin.template:
+    src: backup_consul.sh.j2
+    dest: /opt/scripts/backups/backup_consul.sh
+    owner: root
+    group: root
+    mode: "0750"
+
+- name: Add a cron for backups
+  ansible.builtin.template:
+    src: backup_consul.j2
+    dest: /etc/cron.d/backup_consul
+    owner: root
+    group: root
+    mode: "0750"
+
+
