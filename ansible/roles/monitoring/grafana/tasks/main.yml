@@ -52,3 +52,21 @@
 - name: Change admin password for grafana gui
   ansible.builtin.shell : "grafana-cli admin reset-admin-password {{ grafana_admin_password }}"
   register: __grafana_command_admin
+
+# ansible-galaxy collection install community.grafana
+- name: Add victoriametrics datasource
+  community.grafana.grafana_datasource:
+    name: "{{ item.name }}"
+    grafana_url: "http://127.0.0.1:3000"
+    grafana_user: "{{ grafana_admin_user }}"
+    grafana_password: "{{ grafana_admin_password }}"
+    org_id: "1"
+    ds_type: "{{ item.type }}"
+    ds_url: "{{ item.url }}"
+  loop: "{{ grafana_datasources }}"
+  changed_when: false
+  ignore_errors: true
+
+- name: "Create dashboard - {{ item.label }}"
+  ansible.builtin.include_tasks: create_dashboard.yml
+  loop: "{{ grafana_dashboards }}"
