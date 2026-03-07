@@ -1,0 +1,74 @@
+---
+# tasks file for roles/vmagent
+- name: Check if vmagent exists
+  ansible.builtin.stat:
+    path: /usr/local/bin/vmagent-prod
+  register: __vmtools_vmagent_exists
+
+- name: Check if vmalert exists
+  ansible.builtin.stat:
+    path: /usr/local/bin/vmalert-prod
+  register: __vmtools_vmalert_exists
+
+- name: If vmagent exists get version
+  ansible.builtin.shell: "cat /etc/systemd/system/vmagent.service | grep Version | sed s/'.*Version '//g" # noqa: risky-shell-pipe
+  register: __vmtools_vmagent_get_version
+  when: __vmtools_vmagent_exists.stat.exists
+  changed_when: false
+
+- name: Create directory for vmtools
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0750"
+    recurse: true
+  loop:
+    - "{{ vmtools_vmagent_dir_config }}"
+    - "{{ vmtools_vmagent_dir_data }}"
+    - "{{ vmtools_vmalert_dir_config }}"
+
+- name: Push alerts configuration
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/etc/vmalert/{{ item | basename }}"
+    mode: "0750"
+  with_fileglob:
+    - alerts/*.yml
+  notify: Restart_vmalert
+
+- name: Download vmstack
+  ansible.builtin.unarchive:
+    src: https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v{{ vmtools_vmagent_version }}/vmutils-linux-amd64-v{{ vmtools_vmagent_version }}.tar.gz # noqa: yaml[line-length]
+    dest: /usr/local/bin
+    remote_src: true
+  when: not __vmtools_vmagent_exists.stat.exists or not __vmtools_vmagent_get_version.stdout == vmtools_vmagent_version or not __vmtools_vmalert_exists.stat.exists # noqa: yaml[line-length]
+
+- name: "Configuration file - service {{ item }} "
+  ansible.builtin.template:
+    src: "{{ item }}.service.j2"
+    dest: "/etc/systemd/system/{{ item }}.service"
+    mode: "0750"
+  notify: Restart_{{ item }}
+  loop:
+    - vmagent
+    - vmalert
+
+- name: Vmagent configuration file
+  ansible.builtin.template:
+    src: vmagent.yml.j2
+    dest: "{{ vmtools_vmagent_dir_config }}/vmagent.yml"
+    mode: "0750"
+  notify: Restart_vmagent
+
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Start vmtools
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  loop:
+    - vmagent
+    - vmalert

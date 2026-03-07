@@ -6,3 +6,10 @@
     state: restarted
     enabled: true
     daemon_reload: true
+
+- name: Restart_vmalert
+  ansible.builtin.systemd:
+    name: vmalert
+    state: restarted
+    enabled: true
+    daemon_reload: true
