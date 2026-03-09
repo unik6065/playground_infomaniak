@@ -8,10 +8,15 @@
 
 - name: Install utils
   ansible.builtin.apt:
-    name: curl,wget,unzip,net-tools,dnsutils
+    name: curl,wget,unzip,net-tools,dnsutils, gnupg, software-properties-common, cron
     state: present
     update_cache: true
     cache_valid_time: 3600
+
+- name: Ensure cron is started
+  ansible.builtin.service:
+    name: cron
+    state: started
 
 - name: Install rkhunter & clamav
   ansible.builtin.apt:

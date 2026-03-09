@@ -9,7 +9,7 @@
     backups_consul_key: "3a0f3f734604482a98298ffcbd6336e8"
     backups_consul_secret_key: "{{ vault_backups_consul_secret_key }}"
     backups_consul_secret_password: " {{ vault_backups_consul_secret_password }}"
-    backups_consul_cron_schedule: "* * * * *"
+    # backups_consul_cron_schedule: "* * * * *"
     vault_backups_consul_secret_key: !vault |
             $ANSIBLE_VAULT;1.1;AES256
             31643637316236396561653563316636653030346466343266643935626139383234616465613664
@@ -32,6 +32,7 @@
     - volumes
     - consul
     - backups_consul
+    - monitoring/check_backups
 
 - name: Consul agent
   hosts: all,!meta-app_consul
