@@ -14,6 +14,10 @@ output "security_group_all_internal_id" {
   value = openstack_networking_secgroup_v2.all_internal.id
 }
 
+output "security_group_proxy_id"{
+  value = openstack_networking_secgroup_v2.proxy.id
+}
+
 
 output "network_dev_subnet_id" {
   value = module.network_dev.subnet_id
