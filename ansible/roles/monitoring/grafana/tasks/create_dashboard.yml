@@ -4,6 +4,15 @@
     dest: "/var/lib/grafana/{{ item.label }}.json"
     mode: '0755'
   notify: Restart_grafana
+  when: item.mode == "web"
+
+- name: "Install {{ item.label }} dashboard"
+  ansible.builtin.copy:
+    src: "dashboard_{{ item.json }}"
+    dest: "/var/lib/grafana/{{ item.label }}.json"
+    mode: '0755'
+  notify: Restart_grafana
+  when: item.mode == "local"
 
 - name: Change datasource
   ansible.builtin.replace: 

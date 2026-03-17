@@ -55,4 +55,21 @@
     group: root
     mode: "0750"
 
+# - name: check if restic is already init
+#   ansible.builtin.shell: |
+#     source /root/.config/restic/restic_consul.creds
+#     restic snapshots
+#   args:
+#     executable: /bin/bash
+#   register: __backups_consul_restic_init
+#   ignore_errors: true
+
+# - name: init restic if needed
+#   ansible.builtin.shell: |
+#     source /root/.config/restic/restic_consul.creds
+#     restic init
+#   args:
+#     executable: /bin/bash
+#   when: __backups_consul_restic_init.rc != 0
+
 

@@ -63,6 +63,7 @@
     org_id: "1"
     ds_type: "{{ item.type }}"
     ds_url: "{{ item.url }}"
+    is_default: "{{ item.isDefault }}"
   loop: "{{ grafana_datasources }}"
   changed_when: false
   ignore_errors: true
