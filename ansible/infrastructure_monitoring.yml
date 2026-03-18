@@ -13,6 +13,7 @@
       - {name: "VictoriaMetrics", type: "prometheus", url: "http://{{ grafana_prometheus_address }}", isDefault: true }
     grafana_dashboards:
       - { label: "node-exporter", json: "https://raw.githubusercontent.com/rfrail3/grafana-dashboards/master/prometheus/node-exporter-full.json", mode: "web" }
+      - { label: "traefik", json: "https://raw.githubusercontent.com/traefik/traefik/refs/heads/master/contrib/grafana/traefik.json", mode: "web" }
       - { label: "backups", json: "backups.json", mode: "local" }
 
     volumes_disks:
