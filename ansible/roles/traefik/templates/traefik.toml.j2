@@ -46,6 +46,15 @@
   directory = "{{ traefik_dir_conf }}"             
   watch = true
 
+[providers.consulCatalog]
+  cache = false
+  watch = true
+  exposedByDefault=false
+  [providers.consulCatalog.endpoint]
+    datacenter = "infomaniak"
+    address = "{{ traefik_consul_catalog }}"
+
+
 [metrics]
   [metrics.prometheus]
     entryPoint = "metrics"
