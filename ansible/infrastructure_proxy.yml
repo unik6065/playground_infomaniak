@@ -1,0 +1,5 @@
+- name: Install our proxy
+  become: true
+  hosts: meta-app_proxy
+  roles:
+    - traefik

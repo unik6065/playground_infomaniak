@@ -15,6 +15,7 @@ module "traefik" {
   instance_network_external_name = var.network_external_name
   instance_network_external_id   = var.network_external_id
   public_floating_ip             = true
+  public_floating_ip_fixed       = "83.228.201.88"
   metadatas = {
     environment = "dev",
     app         = "proxy"

@@ -1,0 +1,10 @@
+---
+# defaults file for roles/traefik
+traefik_version:  3.6.10
+traefik_user: traefik
+traefik_group: "{{traefik_user}}"
+traefik_dir_conf: /etc/traefik
+traefik_dir_bin: /usr/local/bin
+traefik_dir_log: /var/log/traefik/
+traefik_tls_mail: unik@gmail.com
+traefik_tls_resolver: certs_gen
