@@ -4,8 +4,13 @@
   roles:
     - traefik
     - consul_services
+    - logrotate
   vars:
     traefik_consul_catalog: "consul.service.infomaniak.consul:8500"
+    logrotate_log_files:
+      - name: traefik
+        path: "/var/log/traefik/*.log"
+        postrotate: "kill -USR1 `pgrep traefik`"
     consul_services:
       - { 
         name: "traefik_dashboard",
