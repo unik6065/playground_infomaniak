@@ -1,0 +1,48 @@
+---
+# tasks file for roles/logging/loki
+
+- name: Add gpg key
+  ansible.builtin.apt_key:
+    url: "https://packages.grafana.com/gpg.key"
+    validate_certs: true
+
+- name: Add repository
+  ansible.builtin.apt_repository:
+    repo: "deb https://packages.grafana.com/oss/deb stable main"
+    state: present
+    validate_certs: true
+
+- name: Install loki
+  ansible.builtin.apt:
+    name: loki
+    state: latest
+    update_cache: true
+    cache_valid_time: 3600
+
+
+- name: Create data dir for loki
+  ansible.builtin.file:
+    state: directory
+    path: "{{ loki_dir_data }}"
+    owner: loki
+    group: loki
+    mode: "0750"
+    recurse: true
+
+- name: Loki install configuration
+  ansible.builtin.template:
+    src: config.yml.j2
+    dest: /etc/loki/config.yml    
+    owner: loki
+    group: loki    
+    mode: "0750"
+  notify: Restart_loki
+
+- name: Start loki
+  ansible.builtin.systemd:
+    name: loki
+    state: started
+    enabled: true 
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
