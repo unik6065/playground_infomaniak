@@ -9,8 +9,10 @@
     grafana_admin_password: "{{ vault_grafana_admin_password }}"
     karma_alertmanager_uri: "http://alertmanager.service.infomaniak.consul:9093"
     grafana_prometheus_address: "vmetrics.service.infomaniak.consul:8428"
+    loki_prometheus_address: "loki.service.infomaniak.consul:3100"
     grafana_datasources:
       - {name: "VictoriaMetrics", type: "prometheus", url: "http://{{ grafana_prometheus_address }}", isDefault: true }
+      - {name: "Loki", type: "loki", url: "http://{{ loki_prometheus_address }}", isDefault: false}
     grafana_dashboards:
       - { label: "node-exporter", json: "https://raw.githubusercontent.com/rfrail3/grafana-dashboards/master/prometheus/node-exporter-full.json", mode: "web" }
       - { label: "traefik", json: "https://raw.githubusercontent.com/traefik/traefik/refs/heads/master/contrib/grafana/traefik.json", mode: "web" }

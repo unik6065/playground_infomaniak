@@ -2,6 +2,7 @@
   hosts: all
   become: true
   vars:
+    vector_list: ["journald"]
     sysctl_overwrite:
       net.ipv4.ip_forward: 1
     ssh_banner: true
@@ -29,3 +30,4 @@
     # - devsec.hardening.ssh_hardening
     - dns-common
     - monitoring/node_exporter
+    - logging/vector

@@ -5,7 +5,9 @@
     - traefik
     - consul_services
     - logrotate
+    - logging/vector
   vars:
+    vector_list: ["traefik"]
     traefik_consul_catalog: "consul.service.infomaniak.consul:8500"
     logrotate_log_files:
       - name: traefik

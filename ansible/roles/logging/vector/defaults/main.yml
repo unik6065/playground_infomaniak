@@ -1,0 +1,9 @@
+---
+# defaults file for roles/logging/vector
+
+vector_dir_data: "/var/lib/vector"
+vector_dir_config: "/etc/vector"
+vector_version: 0.54.0
+vector_binary_path: "/usr/local/bin/"
+vector_loki_endpoint: loki.service.infomaniak.consul:3100
+vector_list: []

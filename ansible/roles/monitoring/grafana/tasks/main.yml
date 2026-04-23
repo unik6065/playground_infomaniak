@@ -50,7 +50,7 @@
   delay: 1
 
 - name: Change admin password for grafana gui
-  ansible.builtin.shell : "grafana-cli admin reset-admin-password {{ grafana_admin_password }}"
+  ansible.builtin.shell : "grafana cli admin reset-admin-password {{ grafana_admin_password }}"
   register: __grafana_command_admin
 
 # ansible-galaxy collection install community.grafana
