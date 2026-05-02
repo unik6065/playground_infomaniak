@@ -15,8 +15,9 @@
       - {name: "Loki", type: "loki", url: "http://{{ loki_prometheus_address }}", isDefault: false}
     grafana_dashboards:
       - { label: "node-exporter", json: "https://raw.githubusercontent.com/rfrail3/grafana-dashboards/master/prometheus/node-exporter-full.json", mode: "web" }
-      - { label: "traefik", json: "https://raw.githubusercontent.com/traefik/traefik/refs/heads/master/contrib/grafana/traefik.json", mode: "web" }
       - { label: "backups", json: "backups.json", mode: "local" }
+      - { label: "traefik", json: "traefik.json", mode: "local" }
+      - { label: "errorlog", json: "errorlog.json", mode: "local" }
 
     volumes_disks:
       - {disk: '/dev/sdb', path: '{{  vmtools_vmagent_dir_disk_data  }}'}

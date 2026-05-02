@@ -15,3 +15,5 @@ sinks:
     endpoint: http://{{ vector_loki_endpoint }}
     encoding:
       codec: "json"
+    healthcheck:
+      enabled: false
