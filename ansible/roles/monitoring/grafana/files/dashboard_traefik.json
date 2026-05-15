@@ -1491,7 +1491,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "adhxkktf5nvggb"
+        "uid": "Loki"
       },
       "gridPos": {
         "h": 15,
@@ -1514,7 +1514,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "adhxkktf5nvggb"
+            "uid": "Loki"
           },
           "editorMode": "builder",
           "expr": "{instance=\"traefik1\", type=\"traefik_access\"} |= `` | json | entryPointName = `https` | line_format `{{ .time }} / {{ .DownstreamStatus }} / {{ .RequestHost }} / {{ .ClientAddr }} / {{ .TLSVersion }} / {{ .RequestMethod }} / {{ .RequestProtocol }} / {{ .RequestPath }}`",

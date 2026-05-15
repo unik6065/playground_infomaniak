@@ -24,7 +24,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "adhxkktf5nvggb"
+        "uid": "Loki"
       },
       "fieldConfig": {
         "defaults": {
@@ -106,7 +106,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "adhxkktf5nvggb"
+            "uid": "Loki"
           },
           "editorMode": "builder",
           "expr": "count_over_time({type=\"journald\"} |= `error` [$__auto])",
@@ -122,7 +122,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "adhxkktf5nvggb"
+        "uid": "Loki"
       },
       "gridPos": {
         "h": 10,
@@ -145,7 +145,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "adhxkktf5nvggb"
+            "uid": "Loki"
           },
           "editorMode": "builder",
           "expr": "{type=\"journald\"} |= `error` | json | line_format `{{ .host }} / {{ .SYSLOG_IDENTIFIER }} : {{.message }}`",

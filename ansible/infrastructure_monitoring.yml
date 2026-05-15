@@ -80,6 +80,13 @@
             "traefik.http.routers.router-grafana.tls.certresolver=certs_gen"
           ] 
       }
+      - {
+        name: "consul_exporter",
+        type: "http",
+        check_target: "http://127.0.0.1:9107",
+        interval: "20s",
+        port: 9107
+      }
     vault_grafana_admin_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           32383364373064326530363238656165646361343266393761646137643932316662663139636335
@@ -98,3 +105,4 @@
     - monitoring/karma
     - monitoring/grafana
     - consul_services
+    - monitoring/consul_exporter
