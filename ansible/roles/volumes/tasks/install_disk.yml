@@ -25,7 +25,7 @@
     state: directory
     owner: "{{ item.owner | default('root') }}"
     group: "{{ item.owner | default('root') }}"
-    mode: "0750"
+    mode: "0755"
 
 - name: Check if the path already exists in fstab
   ansible.builtin.lineinfile:

@@ -1,0 +1,21 @@
+---
+# handlers file for roles/databases/postgresql/postgresql_single
+
+- name: Restart_postgresql
+  service:
+    name: postgresql
+    state: restarted
+
+- name: Reload_postgresql
+  service:
+    name: postgresql
+    state: reloaded
+
+- name: Reconfigure_data_dir
+  become: true
+  become_user: postgres
+  shell:
+    cmd: |
+      /usr/lib/postgresql/{{ postgresql_simple_version_major }}/bin/pg_ctl init -D {{ postgresql_simple_data_dir }}
+  ignore_errors: true
+  notify: Restart_postgresql
