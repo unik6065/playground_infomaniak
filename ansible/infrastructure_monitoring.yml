@@ -105,5 +105,5 @@
     - monitoring/alertmanager
     - monitoring/karma
     - monitoring/grafana
-    - consul_services
+    - consul/consul_services
     - monitoring/consul_exporter

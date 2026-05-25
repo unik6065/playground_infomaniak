@@ -2,7 +2,7 @@
   hosts: meta-app_openvpn
   become: true
   roles:
-    - consul
+    - consul/consul
   vars:
     consul_services:
       - {

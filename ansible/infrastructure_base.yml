@@ -24,10 +24,10 @@
         delay: 2
         timeout: 300
   roles:
-    - base
+    - base_server/base
     - users
     # - devsec.hardening.os_hardening
     # - devsec.hardening.ssh_hardening
-    - dns-common
+    - base_server/dns-common
     - monitoring/node_exporter
     - logging/vector

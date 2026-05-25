@@ -3,8 +3,8 @@
   hosts: meta-app_proxy
   roles:
     - traefik
-    - consul_services
-    - logrotate
+    - consul/consul_services
+    - logging/logrotate
     - logging/vector
   vars:
     vector_list: ["traefik"]

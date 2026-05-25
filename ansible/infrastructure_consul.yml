@@ -30,12 +30,12 @@
 
   roles:
     - volumes
-    - consul
-    - backups_consul
+    - consul/consul
+    - consul/backups_consul
     - monitoring/custom_metrics
 
 - name: Consul agent
   hosts: all,!meta-app_consul
   become: true
   roles:
-    - consul
+    - consul/consul
