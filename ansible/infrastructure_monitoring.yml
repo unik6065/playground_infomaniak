@@ -18,6 +18,7 @@
       - { label: "backups", json: "backups.json", mode: "local" }
       - { label: "traefik", json: "traefik.json", mode: "local" }
       - { label: "errorlog", json: "errorlog.json", mode: "local" }
+      - { label: "consul", json: "consul.json", mode: "local" }
 
     volumes_disks:
       - {disk: '/dev/sdb', path: '{{  vmtools_vmagent_dir_disk_data  }}'}
